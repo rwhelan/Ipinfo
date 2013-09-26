@@ -73,6 +73,8 @@ for i in zf.namelist():
             if result:
                 result = result[0]
                 cursor.execute('INSERT INTO Location VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', tuple(result))
+            else:
+                print row
 
     database.commit()
 

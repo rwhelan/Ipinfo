@@ -1,6 +1,7 @@
 
 import Controller
 
+# eh- This isn't natual.  I'll change this later :p
 class OrgRecord(object):
     def __init__(self, ip):
         self.ip = ip
@@ -28,6 +29,7 @@ class OrgRecord(object):
 
     def __iter__(self):
         self._iters = [i for i in dir(self) if not i.startswith('_')]
+        # Dont need to iter over the next() method
         self._iters.remove('next')
 
         return self
