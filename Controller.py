@@ -4,10 +4,12 @@ import sqlite3
 from Utils import ipv4ToInit
 
 database = sqlite3.connect('data.db')
+database.text_factory = lambda x: x.decode('cp1252')
 cursor = database.cursor()
 
 def _getLocId(ip):
-    cursor.execute('SELECT locId FROM Blocks WHERE startIpNum <= {iip} and endIpNum >= {iip}'.format(iip=ipv4ToInit(ip)))
+    int_ip = ipv4ToInit(ip)
+    cursor.execute('SELECT locId FROM Blocks WHERE startIpNum <= ? and endIpNum >= ?', (int_ip, int_ip))
     result = cursor.fetchall()
 
     if result:
@@ -17,7 +19,7 @@ def _getLocId(ip):
 
 
 def _getLocation(locid):
-    cursor.execute('SELECT * FROM Location WHERE locId == %s' % locid)
+    cursor.execute('SELECT * FROM Location WHERE locId == ?', (locid,))
     result = cursor.fetchall()
 
     if result:
@@ -27,7 +29,8 @@ def _getLocation(locid):
 
 
 def getAS(ip):
-    cursor.execute('SELECT Org FROM ASN WHERE startIpNum <= {iip} and endIpNum >= {iip}'.format(iip=ipv4ToInit(ip)))
+    int_ip = ipv4ToInit(ip)
+    cursor.execute('SELECT Org FROM ASN WHERE startIpNum <= ? and endIpNum >= ?', (int_ip, int_ip))
     result = cursor.fetchall()
 
     if result:

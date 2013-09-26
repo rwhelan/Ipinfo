@@ -38,12 +38,3 @@ class OrgRecord(object):
 
         _key = self._iters.pop(0)
         return (_key, getattr(self, _key))
-
-    def __repr__(self):
-        result = ''
-
-        for i in dir(self):
-            if not i.startswith('_'):
-                result += " %10s => %s\n" % (i, getattr(self, i))
-
-        return result.rstrip()

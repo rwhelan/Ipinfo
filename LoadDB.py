@@ -43,6 +43,7 @@ def fetchURL(url, filehandle):
 
 
 database = sqlite3.connect('data.db')
+database.text_factory = lambda x: x.decode('cp1252')
 cursor = database.cursor()
 DBInit()
 
@@ -60,7 +61,7 @@ for i in zf.namelist():
             result = reBlockRow.findall(row)
             if result:
                 result = result[0]
-                cursor.execute('INSERT INTO Blocks VALUES (%s, %s, %s)' % tuple(result))
+                cursor.execute('INSERT INTO Blocks VALUES (?, ?, ?)', tuple(result))
 
     database.commit()
 
@@ -71,8 +72,7 @@ for i in zf.namelist():
             result = reLocationRow.findall(row)
             if result:
                 result = result[0]
-#                print tuple(result)
-                cursor.execute('INSERT INTO Location VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % tuple(result))
+                cursor.execute('INSERT INTO Location VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', tuple(result))
 
     database.commit()
 
@@ -90,7 +90,7 @@ for i in zf.namelist():
             result = reBlockRow.findall(row)
             if result:
                 result = result[0]
-                cursor.execute('INSERT INTO ASN VALUES (%s, %s, "%s")' % tuple(result))
+                cursor.execute('INSERT INTO ASN VALUES (?, ?, ?)', tuple(result))
 
 
 database.commit()
